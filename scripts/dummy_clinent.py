@@ -5,6 +5,8 @@ import cv2 as cv
 import json 
 from json import JSONEncoder
 from compress_json import json_zip
+import requests
+
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -16,7 +18,7 @@ class NumpyArrayEncoder(JSONEncoder):
 
 def gen_frames(fps, res):   
     try:
-        capture = cv.VideoCapture 
+        #capture = cv.VideoCapture(0)
 
         while True:
             #frame = capture.read()
@@ -26,7 +28,7 @@ def gen_frames(fps, res):
 
             paylaod_tx = json.dumps({'shape':res, 'frame':json.dumps(frame,cls=NumpyArrayEncoder)}) #each pixel will have a rgb color and the color will be stored into a matrix, each matrix will store a row
             #paylaod_tx = json.dumps({'shape':res, 'frame':json.dumps(np.array(frame),cls=NumpyArrayEncoder)})
-            json_zip(paylaod_tx)
+            a=json_zip(paylaod_tx)
             payload_rx = json.loads(paylaod_tx) #this will go also to the server side
 
             

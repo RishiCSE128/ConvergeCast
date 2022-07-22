@@ -2,7 +2,7 @@
 
 import zlib, json, base64
 
-from decomp import json_unzip
+
 
 ZIPJSON_KEY = 'base64(zip(o))'
 
@@ -18,5 +18,4 @@ def json_zip(j):
     }
 
 
-    print(j)
-    json_unzip(j)
+    return(j)
