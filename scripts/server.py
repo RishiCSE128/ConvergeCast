@@ -1,46 +1,14 @@
-import pickle
-import socket
-import struct
-import cv2
-import numpy as np
-import json
+from flask import Flask, request
+import requests
 
-#from scripts/decompressing import json_unzip
+app = Flask(__name__)
 
-HOST = ''
-PORT = 8008
+@app.route('/random/', methods=['POST'])
+def hello_world():
+    if request.method == 'POST':
+        data=request.get_json(force=True)
+        print(data)
+        return 'ok'
 
-def Server(username1, password1,ip1,endpoint1):
-    username = username1
-    password = password1
-    ip=ip1
-    endpoint =endpoint1
-    video = cv2.CaptureVideo(f'rtsp://{username}:{password}@{ip}/{endpoint}')
-
-    
-
-    try:
-        while True:
-            ret, frame = video.read()
-            cv2.imshow(f'Camera:{username}',frame)
-
-            if cv2.waitKey(20) & 0xFF == ord('d'):        # stop the video is the key 'd' is pressed (you can change as per your choice)
-                        break
-            
-            payload_rx = json.loads()
-
-            frame1 = np.asarray(
-                    json.loads(payload_rx['frame']), 
-                    dtype='uint8'
-                ).reshape(payload_rx['shape'])
-        
-
-    except Exception as e:
-        print("ERROR:", e)
-
-if __name__ == "__main__":
-    # Release and close stream
-    stream.release()
-    cv2.destroyAllWindows()
-
-    
+if __name__ == '__main__':
+    app.run(host='192.168.1.207', port=5000)

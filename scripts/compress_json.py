@@ -18,5 +18,5 @@ def json_zip(j):
     }
 
 
-    print(j)
-    json_unzip(j)
+    return(j)
+    
