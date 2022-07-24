@@ -1,4 +1,7 @@
 #to do: https://www.geeksforgeeks.org/running-python-script-on-gpu/
+# import bson.codec_options https://pymongo.readthedocs.io/en/stable/api/bson/index.html to have better performance
+#https://stackoverflow.com/questions/19877903/using-mongo-with-flask-and-python python with flask bson
+#
 
 import numpy as np
 import numpy
@@ -8,6 +11,11 @@ import json
 from json import JSONEncoder
 from compress_json import json_zip
 from compress_json2 import repicture
+import base64
+import bson
+from bson.codec_options import CodecOptions
+
+
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -23,16 +31,21 @@ def gen_frames(fps):
 
     while True:
         isTrue, frame = capture.read()
-        #print(np.array(frame))
+        gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        print(np.array(frame))
+        print(np.array(gray))
         #frame = np.random.randint(256, size=res, dtype='uint8')
         #time.sleep(1/fps)
         #print(frame)
-
-        paylaod_tx = json.dumps({'shape':frame.shape, 'frame':json.dumps(np.array(frame),cls=NumpyArrayEncoder)}) #each pixel will have a rgb color and the color will be stored into a matrix, each matrix will store a row
+        encoded, buf = cv.imencode('.jpg', frame)
+        image = base64.b64encode(buf)
+        a = bson.dumps({'shape': gray.shape, 'frame': image })
+        print(a)
+        #paylaod_tx = json.dumps({'shape':gray.shape, 'frame':image}) #each pixel will have a rgb color and the color will be stored into a matrix, each matrix will store a row
         #paylaod_tx = json.dumps({'shape':res, 'frame':json.dumps(np.array(frame),cls=NumpyArrayEncoder)})
-        zz=json_zip(paylaod_tx)
+        #zz=json_zip(paylaod_tx)
         #print(zz)
-        repicture(zz)
+        #repicture(zz)
 
         #payload_rx = json.loads(paylaod_tx) #this will go also to the server side
         #frame1 = np.asarray(

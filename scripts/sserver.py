@@ -1,3 +1,5 @@
+#https://github.com/jar-o/flask-bson/pull/1/files
+
 import re
 from flask import Flask, request
 import numpy as np
@@ -9,23 +11,27 @@ from json import JSONEncoder
 from decomp import json_unzip
 import flask
 from compress_json2 import repicture
-
+import bson
+from flask_bson import accept_bson, bsonify
+from pymongo import MongoClient
 
 app = Flask(__name__)
 
 @app.route('/server/',methods=['POST'])
+@accept_bson(require_bson = True)
 def hello_world():
 
     while True:
         t = time.time()
         if request.method == 'POST':
+            dd = request.bson_data()
             print(t)
             data1=request.get_json(force=True)
             print(data1)
             payload_rx = json.loads(data1)
             frame1 = np.asarray(
                         json.loads(payload_rx['frame']), 
-                        dtype='uint8'
+                        dtype='Binary'
                     ).reshape(payload_rx['shape'])
 
             cv.imshow('test', frame1)
