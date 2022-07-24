@@ -9,3 +9,8 @@ python3 -m venv venv
 source venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+pip install bson
+pip install Flask-JSON
+pip install numba
+python3 -m pip install -U setuptools pip
+pip install cupy-cuda117

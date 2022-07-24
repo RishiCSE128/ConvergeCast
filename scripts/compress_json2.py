@@ -14,7 +14,7 @@ from numba import jit, cuda
 import base64
 import bson
                          
-@jit
+@numba.cuda.jit
 def func2(b): 
    frame1 = np.asarray(json.loads(b['frame']),     dtype='uint8'                    ).reshape(b['shape'])
   
