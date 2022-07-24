@@ -14,6 +14,7 @@ from compress_json2 import repicture
 import base64
 import bson
 from bson.codec_options import CodecOptions
+from bson.json_util import dumps
 
 
 
@@ -37,15 +38,20 @@ def gen_frames(fps):
         #frame = np.random.randint(256, size=res, dtype='uint8')
         #time.sleep(1/fps)
         #print(frame)
-        encoded, buf = cv.imencode('.jpg', frame)
+        print(gray.shape)
+        encoded, buf = cv.imencode('.jpg', gray)
         image = base64.b64encode(buf)
-        a = bson.dumps({'shape': gray.shape, 'frame': image })
-        print(a)
+
+        a=bson.BSON.encode({'shape': gray.shape, 'frame': image })
+        payload= bson.BSON(a).decode()
+        #print(payload)
+        #a = bson.dumps({'shape': gray.shape, 'frame': image })
+        #print(a)
         #paylaod_tx = json.dumps({'shape':gray.shape, 'frame':image}) #each pixel will have a rgb color and the color will be stored into a matrix, each matrix will store a row
         #paylaod_tx = json.dumps({'shape':res, 'frame':json.dumps(np.array(frame),cls=NumpyArrayEncoder)})
         #zz=json_zip(paylaod_tx)
         #print(zz)
-        #repicture(zz)
+        repicture(a)
 
         #payload_rx = json.loads(paylaod_tx) #this will go also to the server side
         #frame1 = np.asarray(

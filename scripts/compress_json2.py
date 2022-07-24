@@ -21,13 +21,17 @@ def func2(b):
    return frame1
 
 def repicture(c):
-    raw_image = base64.b64decode(bson.loads(c['frame']))
+    a=bson.BSON(c).decode()
+    print(a)
+    raw_image = base64.b64decode(a['frame'])
     image = np.frombuffer(raw_image, dtype=np.uint8)
+    print(image)
     frame = cv.imdecode(image, 1)
-    a=json_unzip(j)
+    print(frame)
+    #a=json_unzip(j)
     #print(a)
-    b=json.loads(a)
-    frame1=func2(b)
+    #b=json.loads(a)
+    #frame1=func2(b)
     cv.imshow('test', frame)
     #if cv.waitKey(20) & 0xFF == ord('d'):    # stop the video is the key 'd' is pressed (you can change as per your choice)
      #   break
