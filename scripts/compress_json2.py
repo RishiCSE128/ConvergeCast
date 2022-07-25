@@ -9,7 +9,7 @@ import numpy as np
 import json
 import time
 import numba
-#import cupy as cp
+import cupy as cp
 from numba import jit, cuda
 import base64
 import bson
@@ -22,18 +22,17 @@ def func2(b):
 
 def repicture(c):
     a=bson.BSON(c).decode()
-    print(a)
+    #print(a)
     raw_image = base64.b64decode(a['frame'])
     image = np.frombuffer(raw_image, dtype=np.uint8)
-    print(image)
+    #print(image)
     frame = cv.imdecode(image, 1)
-    print(frame)
+    #print(frame)
     #a=json_unzip(j)
     #print(a)
     #b=json.loads(a)
     #frame1=func2(b)
+    frame1=cp.array(frame, dtype=np.uint8).reshape(a['shape'])
     cv.imshow('test', frame)
     #if cv.waitKey(20) & 0xFF == ord('d'):    # stop the video is the key 'd' is pressed (you can change as per your choice)
      #   break
-
-time.sleep(5)

@@ -1,7 +1,6 @@
 #to do: https://www.geeksforgeeks.org/running-python-script-on-gpu/
 # import bson.codec_options https://pymongo.readthedocs.io/en/stable/api/bson/index.html to have better performance
 #https://stackoverflow.com/questions/19877903/using-mongo-with-flask-and-python python with flask bson
-#
 
 import numpy as np
 import numpy
@@ -17,32 +16,24 @@ from bson.codec_options import CodecOptions
 from bson.json_util import dumps
 
 
-
-
-class NumpyArrayEncoder(JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, numpy.ndarray):
-            return obj.tolist()
-        return JSONEncoder.default(self, obj)
-
-
 def gen_frames(fps):   
 
     capture = cv.VideoCapture('./vids/Dota.mp4')   # reads the video into a capture object 
 
     while True:
         isTrue, frame = capture.read()
-        gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-        print(np.array(frame))
-        print(np.array(gray))
+        color = cv.cvtColor(frame, cv.COLOR_BGR2RGB) 
+        #gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        #print(np.array(frame))
+        #print(np.array(gray))
         #frame = np.random.randint(256, size=res, dtype='uint8')
         #time.sleep(1/fps)
         #print(frame)
-        print(gray.shape)
-        encoded, buf = cv.imencode('.jpg', gray)
+        #print(gray.shape)
+        encoded, buf = cv.imencode('.jpg', color)
         image = base64.b64encode(buf)
 
-        a=bson.BSON.encode({'shape': gray.shape, 'frame': image })
+        a=bson.BSON.encode({'shape': color.shape, 'frame': image })
         payload= bson.BSON(a).decode()
         #print(payload)
         #a = bson.dumps({'shape': gray.shape, 'frame': image })
