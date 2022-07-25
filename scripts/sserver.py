@@ -53,7 +53,7 @@ def hello_world():
         status_code = 200
         # del(frame)
         # gc.collect()
-        return('Continue')
+        return("Continue")
 
 def imgshow(ff):      
     cv.imshow('test', ff)
