@@ -33,6 +33,6 @@ def repicture(c):
     #b=json.loads(a)
     #frame1=func2(b)
     frame1=cp.array(frame, dtype=np.uint8).reshape(a['shape'])
-    cv.imshow('test', frame)
+    #cv.imshow('test', frame)
     #if cv.waitKey(20) & 0xFF == ord('d'):    # stop the video is the key 'd' is pressed (you can change as per your choice)
      #   break

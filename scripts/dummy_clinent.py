@@ -1,10 +1,7 @@
 #to do: https://www.geeksforgeeks.org/running-python-script-on-gpu/
 # import bson.codec_options https://pymongo.readthedocs.io/en/stable/api/bson/index.html to have better performance
 #https://stackoverflow.com/questions/19877903/using-mongo-with-flask-and-python python with flask bson
-
-import numpy as np
-import numpy
-import time 
+import socket 
 import cv2 as cv
 import json 
 from json import JSONEncoder
@@ -32,9 +29,11 @@ def gen_frames(fps):
         #print(gray.shape)
         encoded, buf = cv.imencode('.jpg', color)
         image = base64.b64encode(buf)
-
-        a=bson.BSON.encode({'shape': color.shape, 'frame': image })
-        payload= bson.BSON(a).decode()
+        hostname = socket.gethostname()
+        print (hostname)
+        ipaddress= socket.gethostbyname(hostname)
+        a=bson.BSON.encode({'shape': color.shape, 'frame': image, 'ipaddress': ipaddress})
+        #payload= bson.BSON(a).decode()
         #print(payload)
         #a = bson.dumps({'shape': gray.shape, 'frame': image })
         #print(a)

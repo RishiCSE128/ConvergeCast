@@ -30,36 +30,44 @@ def hello_world():
     environ["QT_SCALE_FACTOR"] = "1"
     #session['ax']=42
     t = time.time()
-    if request.method == 'POST':
-        dd = request.data
+    while True:
         print(t)
-        #print(dd)
-        a=bson.BSON(dd).decode()
-        #print(a)
-        raw_image = base64.b64decode(a['frame'])
-        #print(raw_image)
-        image = np.frombuffer(raw_image, dtype=np.uint8)
-        #print(image)
-        frame = cv.imdecode(image, 1)
-        #print(frame)
-        #print(frame)
-        threading.Thread(target=imgshow(frame))
-  
-        print(t)
-        # if cv.waitKey(20) & 0xFF == ord('d'):        # stop the video is the key 'd' is pressed (you can change as per your choice)
-        #     break
+        if request.method == 'POST':
+            dd = request.data
+            print(t)
+            #print(dd)
+            a=bson.BSON(dd).decode()
+            #print(a)
+            ses=a['ipadress']
 
-        #session['ax']+=1
-        status_code = 200
-        # del(frame)
-        # gc.collect()
-        return("Continue")
+            print(ses)
+            raw_image = base64.b64decode(a['frame'])
+            #print(raw_image)
+            image = np.frombuffer(raw_image, dtype=np.uint8)
+            #print(image)
+            frame = cv.imdecode(image, 1)
+            #print(frame)
+            #print(frame)
+            cv.imshow('test', frame)
+            cv.waitKey(0)
 
-def imgshow(ff):      
-    cv.imshow('test', ff)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
+            #threading.Thread(target=imgshow(frame))
+    
+            print(t)
+            if cv.waitKey(20) & 0xFF == ord('d'):        # stop the video is the key 'd' is pressed (you can change as per your choice)
+                break
+
+            #session['ax']+=1
+            #status_code = 200
+            # del(frame)
+            # gc.collect()
+            return("Continue")
+
+# def imgshow(ff):      
+#     cv.imshow('test', ff)
+#     cv.waitKey(0)
+#     cv.destroyAllWindows()
 
 if __name__ == '__main__':
-    from waitress import serve
-    app.run(host='192.168.1.207', port=5000)
+    #from waitress import serve
+    app.run(host='10.33.16.19', port=5000)

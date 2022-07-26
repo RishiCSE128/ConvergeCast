@@ -1,8 +1,5 @@
-globalvar=None
-
-def put(frame1):
-    global globalvar
-    globalvar = frame1
-
-def get():
-    return globalvar
+import socket
+hostname = socket.gethostname()
+print (hostname)
+ipaddress= socket.gethostbyname(hostname)
+print (ipaddress)
