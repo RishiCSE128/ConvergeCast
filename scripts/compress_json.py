@@ -18,4 +18,9 @@ def json_zip(j):
     }
 
 
+<<<<<<< HEAD
     return(j)
+=======
+    return(j)
+    
+>>>>>>> 3d73d2af84c4e304c0073f8b524a6d7eea554ca9

@@ -1,0 +1,3 @@
+#!/home/al3x4ndru1/projectgit/ConvergeCast/venv/bin/python3
+from numba.pycc import main
+main()
