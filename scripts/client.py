@@ -1,18 +1,20 @@
 from bz2 import compress
 from ipaddress import ip_address
+import zlib
 import cv2 as cv
 import base64
 import bson
 import requests
-from flask import Flask, request, make_response, jsonify, Response
+from flask import Flask, request, make_response, jsonify, Response, make_response
 import json
 from json import JSONEncoder
 import numpy
 import lz4
 from bson.json_util import dumps, loads
+import pickle
 
 app = Flask(__name__)
-
+#headers = {'Content-type': 'application/json'}
 @app.route('/video/', methods=['GET'])
 def video():
     #waith untill I get an other respinse
@@ -23,14 +25,16 @@ def video():
             # cv.imshow('frame',frame)
             # if cv.waitKey(20) & 0xFF == ord('d'):
             #     break
-            print(frame.shape)
-            encoded, buf =  cv.imencode('.png', frame)
-            a= compress(buf)
+            #print(frame.shape)
+            encoded, buf =  cv.imencode('.jpg', frame)
+            copress = zlib.compress(pickle.dumps(buf))
+            #print(copress)
+            #res= make_response()
 
-            img= base64.b64encode(buf)
-            a=bson.BSON.encode({'shape': frame.shape, 'frame': img})
+            # img= base64.b64encode(buf)
+            # a=bson.BSON.encode({'frame': img})
             #print(a)
-            return Response(a,status=200)
+            return Response(copress,status=200,headers={'Content':'B'})
  
 
 
