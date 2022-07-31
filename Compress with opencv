@@ -1,0 +1,2 @@
+encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
+result, encimg = cv2.imencode('.jpg', img, encode_param)
