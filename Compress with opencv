@@ -1,2 +1,7 @@
 encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
 result, encimg = cv2.imencode('.jpg', img, encode_param)
+
+
+
+
+https://stackoverflow.com/questions/40768621/python-opencv-jpeg-compression-in-memory
