@@ -1,0 +1,44 @@
+#to do: https://www.geeksforgeeks.org/running-python-script-on-gpu/
+# import bson.codec_options https://pymongo.readthedocs.io/en/stable/api/bson/index.html to have better performance
+#https://stackoverflow.com/questions/19877903/using-mongo-with-flask-and-python python with flask bson
+
+#https://stackoverflow.com/questions/19500530/compress-python-object-in-memory compression
+
+#TODO:
+#Sa verific asta: https://github.com/psf/requests/issues/1753
+# For github: https://stackoverflow.com/questions/24357108/updates-were-rejected-because-the-remote-contains-work-that-you-do-not-have-loca
+
+import cv2 as cv
+import requests
+import numpy as np
+import pickle
+import zlib
+import asyncio
+
+headers = {'Content-Encoding': 'gzip'}
+
+
+async def gen_frames():   
+
+    capture = cv.VideoCapture('./vids/Dota.mp4')   # reads the video into a capture object 
+
+    while True:
+        isTrue, frame = capture.read()
+        encode_param = [int(cv.IMWRITE_JPEG_QUALITY), 90]
+        result, buf = cv.imencode('.jpg', frame, encode_param)
+        a = zlib.compress(pickle.dumps(buf))
+        # b= pickle.loads(zlib.decompress(a))
+        # image = np.frombuffer(b, dtype=np.uint8)
+        # frame = cv.imdecode(image, 1)
+        # cv.imshow('test',frame)
+        task = asyncio.create_task(post(a))
+        if cv.waitKey(20) & 0xFF == ord('d'):    # stop the video is the key 'd' is pressed (you can change as per your choice)
+            break
+
+async def post(zip):
+    r = requests.post('http://10.33.16.19:5000/server',data=zip,headers=headers)
+    
+def main():
+    asyncio.run(gen_frames)
+
+main()
